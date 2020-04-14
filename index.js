@@ -46,12 +46,12 @@ function CoordinateLookup(graph) {
   this.index = kdbush(coordinate_list, (p) => p[0], (p) => p[1]);
 }
 
-CoordinateLookup.prototype.getClosestNetworkPt = function(lng, lat) {
-  return geokdbush.around(this.index, lng, lat, 1)[0];
+CoordinateLookup.prototype.getClosestNetworkPt = function (lng, lat, maxResults = 0) {
+  return geokdbush.around(this.index, lng, lat, 1)[maxResults];
 };
 
 
-Graph.prototype._addEdge = function(startNode, endNode, attrs, isUndirected) {
+Graph.prototype._addEdge = function (startNode, endNode, attrs, isUndirected) {
 
   // copying attributes slows things down significantly
   // TODO look closer
@@ -159,7 +159,7 @@ function createNodePool() {
 
 }
 
-Graph.prototype.createFinder = function(opts) {
+Graph.prototype.createFinder = function (opts) {
 
   const options = opts || {};
   const parseOutputFns = options.parseOutputFns || [];
@@ -336,7 +336,7 @@ function buildGeoJsonPath(graph, node_map, start, end) {
 }
 
 
-Graph.prototype.loadFromGeoJson = function(geo) {
+Graph.prototype.loadFromGeoJson = function (geo) {
 
   // turf clone is faster than JSON.parse(JSON.stringify(x))
   // still regretable vs mutating - avoid if possible
@@ -372,7 +372,7 @@ Graph.prototype.loadFromGeoJson = function(geo) {
 };
 
 
-Graph.prototype._cleanseGeoJsonNetwork = function(features) {
+Graph.prototype._cleanseGeoJsonNetwork = function (features) {
 
   // get rid of duplicate edges (same origin to dest)
   const inventory = {};
