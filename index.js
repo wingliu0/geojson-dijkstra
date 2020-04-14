@@ -46,8 +46,11 @@ function CoordinateLookup(graph) {
   this.index = kdbush(coordinate_list, (p) => p[0], (p) => p[1]);
 }
 
-CoordinateLookup.prototype.getClosestNetworkPt = function (lng, lat, maxResults = 0) {
-  return geokdbush.around(this.index, lng, lat, 1)[maxResults];
+CoordinateLookup.prototype.getClosestNetworkPt = function (lng, lat) {
+  return geokdbush.around(this.index, lng, lat, 1)[0];
+};
+CoordinateLookup.prototype.getClosestNetworkPts = function (lng, lat, maxResults = 1) {
+  return geokdbush.around(this.index, lng, lat, maxResults);
 };
 
 
